@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import VisitModelForm
-from .models import Visit, Master, Service
+from .forms import VisitModelForm, ReviewModelForm
+from .models import Visit, Master, Service, Review
 from django.http import JsonResponse
 from django.views.generic import (
     View,
@@ -23,6 +23,7 @@ MENU = [
     {'title': 'Мастера', 'url': '#masters', 'active': True},
     {'title': 'Услуги', 'url': '#services', 'active': True},
     {'title': 'Отзывы', 'url': '#reviews', 'active': True},
+    {'title': 'Оставить отзыв', 'url': '/review/create/', 'active': True},
     {'title': 'Запись на стрижку', 'url': '#orderForm', 'active': True},
 ]
 
@@ -33,13 +34,22 @@ def get_menu_context(menu: list[dict] = MENU):
 
 class MainView(View):
 
-
     def get(self, request):
         menu = get_menu_context()
         form = VisitModelForm()
         masters = Master.objects.all()
+        published_reviews = Review.objects.filter(status=3)
 
-        return render(request, "main.html", {"form": form, "masters": masters, **menu})
+        return render(
+            request,
+            "main.html",
+            {
+                "form": form,
+                "masters": masters,
+                "published_reviews": published_reviews,
+                **menu
+            }
+        )
 
     def post(self, request):
         form = VisitModelForm(request.POST)
@@ -73,3 +83,12 @@ class ThanksTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context.update(get_menu_context())
         return context
+
+class ReviewCreateView(CreateView):
+    model = Review
+    form_class = ReviewModelForm
+    template_name = 'review_form.html'
+    success_url = reverse_lazy('review_thanks')
+
+class ReviewThanksTemplateView(TemplateView):
+    template_name = "review_thanks.html"

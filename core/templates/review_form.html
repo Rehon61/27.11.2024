@@ -1,17 +1,20 @@
-{% extends 'base.html' %}
-{% block title %}Вход | {{ block.super }}{% endblock %}
+{% extends "base.html" %}
+{% block title %}Оставить отзыв{% endblock %}
+{% block header %}
+{% include 'menu.html' %}
+{% endblock %}
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="text-center">Вход в личный кабинет</h4>
+                    <h4 class="text-center">Оставить отзыв</h4>
                 </div>
                 <div class="card-body">
-                    <form method="post" novalidate>
+                    <form method="post" enctype="multipart/form-data" novalidate>
                         {% csrf_token %}
-                         {% for field in form %}
+                        {% for field in form %}
                             <div class="mb-3">
                                 {{ field.label_tag }}
                                 {{ field }}
@@ -23,7 +26,7 @@
                             </div>
                         {% endfor %}
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-dark">Войти</button>
+                            <button type="submit" class="btn btn-dark">Отправить отзыв</button>
                         </div>
                     </form>
                 </div>
