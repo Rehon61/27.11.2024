@@ -49,7 +49,7 @@ class ProfileVisitsListView(LoginRequiredMixin, ListView):
         # Фильтрация визитов в зависимости от типа и установка заголовка страницы
         if visit_type == 'new':
             queryset = queryset.filter(status=0)
-            self.page_title = 'Новые заявки'
+            self.page_title = 'Новые заявкик'
         elif visit_type == 'archive':
             queryset = queryset.filter(status__in=[2, 3])
             self.page_title = 'Архив заявок'
