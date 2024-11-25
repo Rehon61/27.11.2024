@@ -23,6 +23,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -97,9 +98,23 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'Europe/Kaliningrad'      # Калининград (UTC+2)
+# TIME_ZONE = 'Europe/Moscow'           # Москва, центр (UTC+3)
+# TIME_ZONE = 'Europe/Samara'           # Самара (UTC+4)
+# TIME_ZONE = 'Asia/Yekaterinburg'      # Екатеринбург (UTC+5)
+# TIME_ZONE = 'Asia/Omsk'               # Омск (UTC+6)
+# TIME_ZONE = 'Asia/Novosibirsk'        # Новосибирск (UTC+7)
+# TIME_ZONE = 'Asia/Krasnoyarsk'        # Красноярск (UTC+7)
+# TIME_ZONE = 'Asia/Irkutsk'            # Иркутск (UTC+8)
+# TIME_ZONE = 'Asia/Yakutsk'            # Якутск (UTC+9)
+# TIME_ZONE = 'Asia/Vladivostok'        # Владивосток (UTC+10)
+# TIME_ZONE = 'Asia/Magadan'            # Магадан (UTC+11)
+# TIME_ZONE = 'Asia/Kamchatka'          # Петропавловск-Камчатский (UTC+12)
+# Астана (Казахстан)
+# TIME_ZONE = 'Asia/Almaty'             # Астана/Алматы (UTC+6)
+TIME_ZONE = 'Asia/Almaty'
 
 USE_I18N = True
 
@@ -127,3 +142,10 @@ YOUR_PERSONAL_CHAT_ID = os.getenv("YOUR_PERSONAL_CHAT_ID")
 
 
 AUTH_USER_MODEL = 'users.CustomUser'
+JAZZMIN_SETTINGS = {
+    "site_title": "Название сайта",
+    "site_header": "Название в шапке",
+    "site_brand": "Бренд",
+    "welcome_sign": "Добро пожаловать в админ-панель",
+    "copyright": "Acme Ltd",
+}
