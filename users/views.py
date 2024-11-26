@@ -3,7 +3,7 @@ from core.models import Visit
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import PasswordChangeView
 from .forms import VisitUpdateForm, AdminVisitCreateForm
 
@@ -106,10 +106,14 @@ class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
         return context
 
 
-class VisitDetailView(LoginRequiredMixin, DetailView):
+class VisitDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Visit
     template_name = 'visit_detail.html'
     context_object_name = 'visit'
+
+    def test_func(self) -> bool | None:
+        is_user_manager = self.request.user.groups.filter(name='Менеджер').exists()
+        return is_user_manager
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -117,9 +121,10 @@ class VisitDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class VisitDeleteView(LoginRequiredMixin, DeleteView):
+class VisitDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Visit
     success_url = reverse_lazy('cabinet:all_visits')
+    permission_required = 'core.delete_visit'
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
